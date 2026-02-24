@@ -31,4 +31,10 @@ class Task:
     
     def __str__(self):
         return f"{self.name} | Preparedness: {self.current_preparedness}"
-    
+class PlannerConfiguration:
+    def __init__(self, horizon_length: int, daily_limit: float):
+        self.horizon_length=horizon_length
+        self.daily_limit=daily_limit
+
+    def total_available_time(self) -> float:
+        return self.horizon_length*self.daily_limit
