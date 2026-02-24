@@ -1,5 +1,6 @@
 from models import Task, PlannerConfiguration
 from allocator import naive_allocate
+from risk import calculate_totalrisk, calculate_worstrisk
 
 def check_feasibility(tasks, config):
     total_required=sum(task.remaining_effort() for task in tasks)
@@ -25,11 +26,19 @@ def main():
     config=PlannerConfiguration(horizon_length=5, daily_limit=6)
     naive_allocate(tasks,config)
 
+    print("\nFinal task states")
+
     for task in tasks:
         print(task)
-        print("Succesful:", task.is_successful())
+        print("Successful:", task.is_successful())
         print("---")
+    
+    total_risk=calculate_totalrisk(tasks)
+    worst_risk=calculate_worstrisk(tasks)
 
-
+    print("\nEvaluation Summary:")
+    print("Total System Risk:",total_risk)
+    print("Worst Task Risk:",worst_risk)
+    
 if __name__=="__main__":
     main()
