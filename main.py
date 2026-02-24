@@ -1,4 +1,5 @@
 from models import Task, PlannerConfiguration
+from allocator import naive_allocate
 
 def check_feasibility(tasks, config):
     total_required=sum(task.remaining_effort() for task in tasks)
@@ -21,8 +22,14 @@ def main():
         Task("Chem", 6, 10, 50, 100)
     ]    
 
-    config=PlannerConfiguration(horizon_length=5, daily_limit=3)
-    check_feasibility(tasks, config)
+    config=PlannerConfiguration(horizon_length=5, daily_limit=6)
+    naive_allocate(tasks,config)
+
+    for task in tasks:
+        print(task)
+        print("Succesful:", task.is_successful())
+        print("---")
+
 
 if __name__=="__main__":
     main()

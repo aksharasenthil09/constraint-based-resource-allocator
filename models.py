@@ -31,6 +31,17 @@ class Task:
     
     def __str__(self):
         return f"{self.name} | Preparedness: {self.current_preparedness}"
+    
+    def apply_effort(self, hours: float):
+        """
+        Applies effort and updates preparedness linearly
+        """
+        if self.total_effort==0:
+            return
+        effort_fraction=hours/self.total_effort
+        self.current_preparedness+=effort_fraction*100
+        self.current_preparedness=min(self.current_preparedness, 100)
+
 class PlannerConfiguration:
     def __init__(self, horizon_length: int, daily_limit: float):
         self.horizon_length=horizon_length
