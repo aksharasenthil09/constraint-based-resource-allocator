@@ -42,6 +42,14 @@ class Task:
         self.current_preparedness+=effort_fraction*100
         self.current_preparedness=min(self.current_preparedness, 100)
 
+    def days_remaining(self, current_day: int) -> int:
+        """
+        Returns how many days remain before due date.
+        Always returns at least 1 to avoid division by 0
+        """
+        return max(1, self.due_day-current_day)
+
+
 class PlannerConfiguration:
     def __init__(self, horizon_length: int, daily_limit: float):
         self.horizon_length=horizon_length
