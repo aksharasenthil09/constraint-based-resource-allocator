@@ -18,12 +18,12 @@ def check_feasibility(tasks, config):
     
 def run_simulation(allocator, label):
     tasks=[
-        Task("Math", 5, 20, 40, 75),
-        Task("Physics", 4, 15, 20, 70),
-        Task("Chemistry", 6, 1, 50, 80)
+        Task("EarlyExam", 2, 10, 20, 70),
+        Task("MidExam", 4, 20, 30, 75),
+        Task("LateExam", 5, 15, 40, 80)
     ]
 
-    config= PlannerConfiguration(horizon_length=5, daily_limit=6)
+    config= PlannerConfiguration(horizon_length=5, daily_limit=4)
     allocator(tasks, config)
 
     print(f"\n---{label}---")
