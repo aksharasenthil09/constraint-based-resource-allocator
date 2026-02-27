@@ -1,6 +1,8 @@
 from models import Task, PlannerConfiguration
 from allocator import naive_allocate, greedy_allocate
 from risk import calculate_totalrisk, calculate_worstrisk
+import scenario_1
+import scenario_2
 
 def check_feasibility(tasks, config):
     total_required=sum(task.remaining_effort() for task in tasks)
@@ -16,25 +18,21 @@ def check_feasibility(tasks, config):
         print("Schedule is feasible")
         return True
     
-def run_simulation(allocator, label):
-    tasks=[
-        Task("EarlyExam", 2, 10, 20, 70),
-        Task("MidExam", 4, 20, 30, 75),
-        Task("LateExam", 5, 15, 40, 80)
-    ]
-
-    config= PlannerConfiguration(horizon_length=5, daily_limit=4)
+def run_simulation(get_scenario, allocator, label):
+    tasks, config = get_scenario()
     allocator(tasks, config)
-
-    print(f"\n---{label}---")
+    
+    print(f"\n--- {label} ---")
     for task in tasks:
         print(task)
 
     print("Total Risk:", calculate_totalrisk(tasks))
     
 def main():
-    run_simulation(naive_allocate, "Naive")
-    run_simulation(greedy_allocate, "Greedy")
+    run_simulation(scenario_1.get_scenario, naive_allocate, "Scenario 1 - Naive")
+    run_simulation(scenario_1.get_scenario, greedy_allocate, "Scenario 1 - Greedy")
+    run_simulation(scenario_2.get_scenario, naive_allocate, "Scenario 2 - Naive")
+    run_simulation(scenario_2.get_scenario, greedy_allocate, "Scenario 2 - Greedy")
     
 if __name__=="__main__":
     main()
