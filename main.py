@@ -1,5 +1,5 @@
 from models import Task, PlannerConfiguration
-from allocator import naive_allocate, greedy_allocate
+from allocator import naive_allocate, greedy_allocate, threshold_greedyallocate
 from risk import calculate_totalrisk, calculate_worstrisk
 import scenario_1
 import scenario_2
@@ -33,6 +33,8 @@ def main():
     run_simulation(scenario_1.get_scenario, greedy_allocate, "Scenario 1 - Greedy")
     run_simulation(scenario_2.get_scenario, naive_allocate, "Scenario 2 - Naive")
     run_simulation(scenario_2.get_scenario, greedy_allocate, "Scenario 2 - Greedy")
+    run_simulation(scenario_1.get_scenario, threshold_greedyallocate, "Scenario 1 - Threshold Greedy")
+    run_simulation(scenario_2.get_scenario, threshold_greedyallocate, "Scenario 2 - Threshold Greedy")
     
 if __name__=="__main__":
     main()

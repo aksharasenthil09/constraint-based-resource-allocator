@@ -48,6 +48,17 @@ class Task:
         Always returns at least 1 to avoid division by 0
         """
         return max(1, self.due_day-current_day)
+    
+    def threshold_remaining_effort(self):
+        """
+        Reutrns how many hours are eneded to reach threshold
+        Reutrns 0 if threshold already met
+        """
+        if self.current_preparedness >= self.threshold:
+            return 0
+        
+        percent_gap = self.threshold - self.current_preparedness
+        return (percent_gap/100) * self.total_effort
 
 
 class PlannerConfiguration:

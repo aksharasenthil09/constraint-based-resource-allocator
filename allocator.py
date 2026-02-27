@@ -44,3 +44,32 @@ def naive_allocate(tasks, config):
 
         for task in active_tasks:
             task.apply_effort(daily_share)
+
+def threshold_greedyallocate(tasks, config):
+    """
+    Allocates based on threshold urgency instead of full completion
+    urgency=threshold_remaining_effort/days_remaining
+    """
+
+    for day in range(config.horizon_length):
+        active_tasks = [task for task in tasks if task.due_day>day]
+        if not active_tasks:
+            continue
+
+        remaining_hours=config.daily_limit
+
+        while remaining_hours > 0 and active_tasks:
+
+            active_tasks.sort(
+                key=lambda t: t.threshold_remaining_effort() / (t.days_remaining(day)**2.1),
+                reverse=True
+            )
+
+            most_urgent=active_tasks[0]
+            allocation = min(1,remaining_hours)
+            most_urgent.apply_effort(allocation)
+
+            remaining_hours-=allocation
+
+            if most_urgent.threshold_remaining_effort()==0:
+                active_tasks.remove(most_urgent)
